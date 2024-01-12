@@ -20,12 +20,12 @@ anderson <-
   dplyr::select(anderson_subsistence, anderson_preysize, anderson_hunt)
 
 recode <- 
-  read_excel('recoding.xlsx', skip = 1) |> 
+  read_excel('recoding.xlsx', skip = 1, na = 'N/A') |> 
   dplyr::select(Society, Subsistence...6:Pseudoreplication) |> # Omit our copy of the Anderson data
   rename(
     Subsistence = Subsistence...6,
-    small_game = `Hunt small-medium game? (<45kg)`,
-    large_game = `Hunt large game? (≥45kg)`
+    small_game = `Hunt small-medium game (<45kg)`,
+    large_game = `Hunt large game (≥45kg)`
   ) |> 
   bind_cols(anderson) |> # fragile, but the rows are in the same order
   mutate(
@@ -80,7 +80,8 @@ ggplot(recode, aes(small_game, large_game)) +
 # Table of societies by prey size and frequency
 
 recode |> 
-  dplyr::select(Society, small_game, large_game) |> 
+  dplyr::select(Society, small_game, large_game, anderson_hunt) |> 
+  mutate(Society = ifelse(anderson_hunt == 1, paste0('**', Society, '**'), Society)) |> 
   pivot_longer(c(small_game, large_game), names_to = 'Prey_size', values_to = 'Frequency') |> 
   group_by(Prey_size, Frequency) |> 
   summarise(
