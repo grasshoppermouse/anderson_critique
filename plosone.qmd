@@ -1,0 +1,362 @@
+---
+title: "Woman the Hunter? Female foragers sometimes hunt, yet gendered divisions of labor are real"
+execute:
+  echo: false
+format:
+  plos-html:
+    embed-resources: true
+    number-sections: false
+    journal:
+      id: plosone
+author:
+  - name: Vivek Venkataraman
+    orcid: 0000-0001-5016-4423
+    corresponding: true
+    email: vivek.venkataraman@ucalgary.ca
+    affiliations:
+      - ref: aff1
+  - name: Jordie Hoffman
+    orcid: 0009-0001-8276-3364
+    affiliations:
+      - ref: aff1
+  - name: Raymond B. Hames
+    orcid: 0000-0002-6931-3342
+    affiliations:
+      - ref: aff2
+  - name: Duncan N.E. Stibbard-Hawkes
+    orcid: 0000-0002-6719-9507
+    affiliations:
+      - ref: aff3
+  - name: Karen Kramer
+    orcid: 0000-0002-9157-7758
+    affiliations:
+      - ref: aff4
+  - name: Robert Kelly
+    orcid: 0000-0001-9737-0152
+    affiliations:
+      - ref: aff5
+  - name: Kyle Farquharson
+    orcid: 0009-0008-0209-1192
+    affiliations:
+      - ref: aff1
+  - name: Edward H. Hagen
+    orcid: 0000-0002-5758-9093
+    affiliations:
+      - ref: aff6
+  - name: Helen Elizabeth Davis
+    orcid: 0000-0002-8880-354X
+    affiliations:
+      - ref: aff7
+  - name: Luke Glowacki
+    orcid: 0000-0002-8314-5904
+    affiliations:
+      - ref: aff8
+  - name: Haneul Jang
+    orcid: 0000-0001-5994-6413
+    affiliations:
+      - ref: aff9
+  - name: Kristen Syme
+    orcid: 0000-0002-5601-8897
+    affiliations:
+      - ref: aff10
+  - name: Katie Starkweather
+    orcid: 
+    affiliations:
+      - ref: aff11
+  - name: Sheina Lew-Levy
+    orcid: 
+    affiliations:
+      - ref: aff12
+affiliations:
+  - id: aff1
+    name: Department of Anthropology and Archaeology, University of Calgary
+    city: Calgary
+    country: Canada
+  - id: aff2
+    name: Department of Anthropology, University of Nebraska
+    city: Lincoln
+    state: Nebraska
+    country: USA
+  - id: aff3
+    name: Department of Anthropology, Durham University
+    city: Durham
+    country: UK
+  - id: aff4
+    name: Department of Anthropology, University of Utah
+    city: Salt Lake City
+    state: Utah
+    country: USA
+  - id: aff5
+    name: Department of Anthropology, University of Wyoming
+    city: ™Laramie
+    state: Wyoming
+    country: USA
+  - id: aff6
+    name: Department of Anthropology, Washington State University
+    city: Vancouver
+    state: Washington
+    country: USA
+  - id: aff7
+    name: School of Human Evolution and Social Change and the Institute of Human Origins, Arizona State University
+    city: Tempe, Phoenix
+    state: Arizona
+    country: USA
+  - id: aff8
+    name: Department of Anthropology, Boston University
+    city: Boston
+    state: MA
+    country: USA
+  - id: aff9
+    name: Institute for Advanced Study in Toulouse, Toulouse School of Economics
+    city: Toulouse
+    country: France
+  - id: aff10
+    name: Institute of Security and Global Affairs, Leiden University
+    city: The Hague
+    country: Netherlands
+  - id: aff11
+    name: Katie Department
+    city: 
+    state: 
+    country: USA
+  - id: aff12
+    name: Sheina Department
+    city: 
+    state: 
+    country: USA
+
+abstract: |
+  Gendered divisions of labor are a feature of every known contemporary hunter-gatherer (forager) society. While gender roles are certainly flexible, and prominent and well-studied cases of female hunting do exist, it is more often men who hunt. A new study (Anderson et al., 2023) conducted a survey of ethnographically known foragers and found that women hunt in 79% of foraging societies, with big-game hunting occurring in 33%. Based on this single type of labor, which is one among dozens performed in foraging societies, the authors question the existence of gendered division of labor altogether. As a diverse group of hunter-gatherer experts, we find that claims that foraging societies lack or have weak gendered divisions of labor are contradicted by empirical evidence. We conducted an in-depth examination of Anderson et al. (2023) data and methods, finding evidence of sample selection bias and numerous coding errors that undermine the paper’s conclusions. Anderson et al. (2023) have started a useful dialogue to ameliorate the popular misconception that women never hunt. However, their analysis does not contradict the wide body of empirical evidence for gendered divisions of labor in foraging societies. Furthermore, a myopic focus on hunting diminishes the value of contributions that take different forms and downplays the trade-offs foragers of both sexes routinely face. We caution against ethnographic revisionism that projects Westernized conceptions of labor and its value onto foraging societies.
+bibliography: bibliography.bib 
+---
+
+```{r include=F}
+source('analysis.R')
+
+ratio_fmt <- function(numerator, denominator){
+  str_glue("{numerator}/{denominator} ({100*round(numerator/denominator, 2)}%)")
+}
+
+num_soc <- nrow(anderson)
+```
+
+
+# Introduction
+
+One of the most consistent and well-established empirical regularities in the study of contemporary hunter-gatherers (foragers), is that men and women make different but complementary subsistence contributions. Men tend to spend much of their time hunting medium-to-large sized game, but often return empty-handed, whereas women spend much of their time caring for young children and gathering plant foods, typically a more reliable food source [@Murdock1973-fa; @Marlowe2005-bv; @Marlowe2007-zs; @Bliege_Bird2015-pb; @Wood2002-eh]. Despite these complementary divisions of labor, which vary as a function of ecological factors [@Marlowe2007-zs], gender roles are not rigidly deterministic. For instance, women make capable hunters [@Goodman1985-xe; @Noss2001-qq], with reports of female participation in hunting going back centuries [@Hoffman2023-hv], and men regularly gather [@Kramer2018-fb; @Marlowe2007-zs; @Wood2013-wn; @Endicott1974-bp; @Turnbull1965-ns]. Among most foraging populations, however, women hunt rarely, and sometimes not at all; one estimate placed the frequency of women's hunting across foraging societies at roughly 7% [@Gurven2009-ds].
+
+A recent study, published in this journal, questioned any such gendered[^1] division of labor in ethnographically known foragers. Based on a survey of ethnographies that contained explicit descriptions of hunting, Anderson et al. (2023) [@Anderson2023-ou] reported that women's hunting occurs in 79% of foraging societies, and that this involves large[^2] game in 33% of foraging societies. With these findings, they highlight the "..significant role females have in hunting, thus dramatically shifting stereotypes of labor...", and go on to question the existence of any gendered divisions of labor. Other forms of labor common in foraging societies (e.g. gathering, food processing, childcare) were not analyzed by gender to bolster this claim. These claims have been widely reported in the press, e.g. [@Miller2023-fb; @Aizenman2023-ss; @Alex2023-zh; @Criado2023-iw; @osborne2023; @roeloffs2023; @hrodey2023], and are cited in several scientific articles [@Bebber_2023; @smallwood2023; @friant2023; @Lacy2023-cp; @munoz2023; @atanasiu2023; @miszaniec2023; @hora2024; @baka2024].
+
+Scientific paradigms must always be challenged. We agree that, historically, hunting and men's labor have been over-emphasized in research among forager populations[^3], and we applaud Anderson et al. (2023) for their willingness to challenge an orthodoxy that is often misused to justify misogyny and limit the opportunities of women [@Vallerga2022-wc; @Bachaud2023-op]. Nevertheless, their claims about contemporary foraging societies are contradicted by the large existing literature on both female hunting and the gendered division of labor more broadly. Misrepresentation of the ethnographic record devalues the many essential contributions of forager women (and men) beyond hunting, and dispenses with a century of hard-won empirical research. In this piece we critique the claims in Anderson et al. (2023).
+
+Our critique is organized as follows. First, we describe conceptual and methodological issues with Anderson et al.'s (2023) analysis. We show how binary coding decisions about women's hunting obscure its relative importance within societies. On re-examination of their methods and data, we find numerous analytic concerns, including: selection bias (ethnographic reports were biased toward those reporting women's hunting); misclassification of societal attributes (e.g. labeling horticulturalists as foragers); pseudo-replication (e.g. treating two reports from the same group as independent data points); and misrepresentative coding decisions (miscoding instances of women's hunting). Many of these errors result from their reliance on secondary sources. We demonstrate that Anderson et al.'s (2023) conclusion that women hunt in 79% of foraging societies is a substantial overestimate. We also show that their conclusion --- that contemporary female foragers hunt large game in 33% of societies --- conflicts with the current state of the evidence. We conclude that Anderson et al.'s (2023) study does not challenge the consensus view that gendered divisions of labor are ubiquitous in foraging societies.
+
+# Methodological critique of Anderson et al. (2023)
+
+We first emphasize conceptual issues with Anderson et al.'s (2023) study. Anderson et al. (2023) coded their data at the society level. They provide no evidence that they conducted a paragraph-level analysis, which has been standard in cross-cultural research for some years [@Ember2007-cd]. It was not possible to ascertain where the relevant text was located that was used to determine women's hunting. As a result, their analysis is not replicable. Further, their coding scheme does not account for the frequency of women's hunting in a society in terms of effort allocated or the amount of prey acquired. Women's hunting was coded as a binary variable and recorded as 'present' whether the case was a single report or habitual involvement. There was no minimum threshold for inclusion and, e.g., societies where hunting constituted only 1.2% of women's returns [@Marlowe2010-ee] were coded as having women's hunting. Beyond brief commentary on 'opportunism' in hunting, Anderson et al.'s (2023) results give little indication about the importance or broader societal context of women's hunting activities.
+
+In what follows, we highlight several methodological issues. We show that the sampling methodology of Anderson et al. (2023) appears biased toward reports of female hunters, while ignoring studies where women do not hunt, producing an inflated estimate of the frequency of women's hunting (79%). We also identify seven specific types of errors, including miscoding of subsistence type; ubiquitous secondary referencing; cases of pseudoreplication; and absence of evidence of hunting in cited sources. Coding criteria are poorly described in text and, in many cases, Anderson et al. (2023) appear not to follow them. The reported degree to which women participate in the hunting of large game does not hold up under close scrutiny. Each one of these methodological failures biases results *in the same direction*, serving to over-represent the frequency of women's hunting.
+
+## Sampling methodology and selection bias
+
+Anderson et al. (2023) found evidence for women's hunting in 50/63 (79%) of forager societies surveyed. For this estimate to be representative of actual contemporary forager diversity, the sampling procedure would need to be unbiased. Anderson et al. (2023) describe their sampling procedure as follows: they chose 391 forager societies from the D-PLACE (<https://d-place.org/>) ethnographic database [@Kirby2016-it] and selected that subset of 63 in which 'explicit' information about hunting was available. To account for autocorrelation (Galton's problem), societies were chosen in geographically diverse locations. Little further information about sampling was provided in the text of the article. However, the senior author told the newspaper *El Pais ---* for an article entitled '*Women have always hunted as much as men*' --- that societies were only included where sources were explicitly "detailing hunting behavior and strategies". Studies lacking tables, statistics or details, were excluded from the sample [@Criado2023-iw]. The methods did not incorporate other statistical procedures that are common in quantitative ethnographic analysis, and the inclusion criteria were neither well described nor clearly operationalised, making reproduction[^4] difficult. Given that Anderson et al.'s (2023) resulting estimate of 79% is substantially higher than previous quantitative assessments of 7% [@Gurven2009-ds], it is worthwhile to consider selection bias. We do so here[^5] (see [Table S1](https://docs.google.com/spreadsheets/d/12-gORpmwOLrptdyIdtqr6JkoDtzsM6p6bPpPW-RJQGA/edit?usp=sharing)).
+
+### Improper exclusion from D-PLACE
+
+First, we explored whether Anderson et al. (2023) followed their own reported exclusion criteria. We considered, first, whether societies were included in the analysis that were not found in D-PLACE. We identified a significant number of societies in the Anderson et al. (2023) sample that were not in the D-PLACE database (which comprises the *Ethnographic Atlas,* the Binford dataset, the Standard Cross-Cultural Sample (SCCS), and the Western North American Indians dataset). Specifically, of those 63 societies with "explicit data on hunting" (p.3), 22/63 (35%) were not present in D-PLACE. Of the 50/63 societies with putative evidence of women's hunting, 18 (36%) were not found in D-PLACE. This raises the question of how societies outside of D-PLACE were chosen, as no details were given. We found that of those 22 societies gathered from outside of D-PLACE, 18/22 (81%) had evidence of women's hunting, according to the authors. In the absence of methodological details about how bias was avoided, this result implies biased selection.
+
+We next considered whether there were societies among the initial 391 D-PLACE samples for which explicit descriptions of hunting *were* available, but were excluded nonetheless. Here, we found evidence that Anderson et al. (2023) did not follow their own reported selection criteria and excluded some groups that should have been included, again inflating the frequency of women's hunting. Our attempts to acquire from D-PLACE [@Kirby2016-it] the same list of 391 societies that Anderson et al. (2023) began with did not meet with success due to lack of sufficient information in their paper, and so we could not reproduce their analysis. Instead, to assess the possibility that some relevant ethnographies were wrongly excluded, we constrained our search to two recent large-scale and comprehensive quantitative syntheses of human foraging behavior [@Koster2020-jg; @Kraft2021-hi]. We explored overlap between these two datasets, D-PLACE, and the Anderson et al. (2023) dataset. We found 18 societies that were described in D-PLACE, in which *comprehensive explicit data* on hunting existed, *but which were excluded* from the Anderson et al. (2023) analysis. This provides evidence that the study did not follow its own exclusion criteria. Moreover, of these 18 societies (Anbarra, Arnhem, Bari, Bororo, G/wi, Gadio Enga, Kanela, Mamainde, Maya, Mekranoti, Nukak, Onge, Piro, Shipibo, Xavante, Yanomamo, Ye'kwana, Yukpa), 9 (G/wi, Nukak, Onge, Yanomamo, Arnhem, Shipibo, Mamainde, Bari, and Maya) reported explicitly that women did not hunt, and in the other 9 only men's hunting was mentioned (see footnote 5). This again raises the possibility of biased selection and again serves to artificially inflate estimates of women's hunting. A comprehensive re-analysis of the entire D-PLACE database would likely reveal more cases of improper exclusion.
+
+### Selective inclusion of non-D-PLACE sources
+
+We next considered Anderson et al.'s (2023) inclusion of non-D-PLACE sources. Koster et al. [@Koster2020-jg] selected datasets that characterized hunting across the lifespan, and Kraft et al. [@Kraft2021-hi] selected studies that characterized subsistence contributions in-depth at the societal level, partly with the goal of characterizing gender-based differences in foraging. As these studies summarize some of the most authoritative datasets on forager subsistence behavior, they constitute perhaps the best explicit descriptions currently available. Between these two publications, there were 60 unique societies. Of these, Anderson et al. (2023) included 18 in their study (!Kung, Ache, Agta, Aka, Baka, Batek, Bofi, Cree, Efe, Gunwinngu, Hadza, Hiwi, Inuit, Martu, Mbuti, Pume, Punan, Tsimane), and, of these, 15 were coded as positively for the occurrence of women's hunting. 14 of these societies were contained in D-PLACE. This leaves 42 societies with comprehensive descriptions of subsistence behavior, including hunting, that they did not investigate.
+
+Of the 60 unique societies between Koster et al. [@Koster2020-jg] and Kraft et al. [@Kraft2021-hi], 34 were contained in D-PLACE, and 26 of these societies were not (Achuara, Batek, Bofi, Dolgan, Etolo, Hiwi, Inujjuamiut, Kaul, Lufa, Machiguenga, Maku, Maring, Mvae, Mayangna, Nen, Nimboran, Nuaulu, Nunoa, Quichua, Tatuyo, Tsembega, Tsimane, Waorani, Wola, Wayana, Yassa). Given that Anderson et al. (2023) themselves appear to have sought sources outside of D-PLACE, it is not clear why many of the most comprehensively described societies were not chosen. In these populations, based on published work [@Kaplan2000-do; @Kraft2021-hi; @Koster2020-jg], women's hunting occurs rarely or is not reported at all[^6]. Of course, absence of evidence does not constitute evidence of absence, and it is always possible that women's hunting was underreported. However, given that the Koster et al. [@Koster2020-jg] and Kraft et al. [@Kraft2021-hi] datasets drew on studies where long periods of fieldwork were conducted, in the first case with particular emphasis on hunting, it is specifically these societies where evidence of women's hunting is least likely to have been missed. This shows that even if Anderson et al. (2023) had strictly followed their own exclusion criteria, by limiting their search to D-PLACE, they would have missed a great deal of highly pertinent evidence that runs contrary to their conclusions.
+
+We acknowledge that this is not a precise reproduction, as Anderson et al. (2023) did not provide enough detail in their methods to make this possible. Given the challenges of working with large ethnographic databases, we sympathize with the efforts of Anderson et al. (2023) and do not believe they were intentionally cherry-picking. Our point is that selecting different societies would have resulted in a far different (lower) estimate. Moreover, adding more societies to the denominator of Anderson et al.'s (2023) frequency calculation would change their estimate drastically. This is without examining the more than *300 other societies* that were in their original (unsourced) sample, in some of which hunting is likely described in detail. Even putting aside their numerous coding errors (see next section), Anderson et al.'s (2023) estimate of 79% is unreliable and probably heavily inflated[^7]. A full analysis of several hundred ethnographies would be necessary to arrive at a defensible estimate.
+
+## Coding errors
+
+Second, we thoroughly re-examined the source ethnographies for the 63 societies Anderson et al. (2023) claimed as providing explicit evidence of women's hunting. Their data are included in their Table 1 and in the associated Supporting Information data file. We describe several issues with this dataset, the coding decisions, and the inferences that were subsequently drawn.
+
+Coding ethnographic texts on a particular topic, such as women hunting, is difficult because the relevant material is typically short (sometimes one sentence or less) and often ambiguous. Coding decisions therefore almost always require judgment calls that will inevitably differ among coders. It is therefore essential that studies of the ethnographic record identify the specific texts used for each coding decision. Because Anderson et al. (2023) did not conduct a paragraph-level analysis, we do not know what evidence was used from source ethnographies to support their coding decisions. We therefore re-coded the source ethnographies used by Anderson et al. (2023). We selected text fragments that appeared to us the most relevant for coding the presence of women's hunting, the frequency of hunting, and the size of prey hunted. In our re-analysis, for a case to count as positive evidence for women's hunting, it must involve 'active' participation by women (not spiritual or ritual purposes), and it must not involve technology that was unavailable for most of human history and prehistory (i.e. firearms).
+
+While other sources contained relevant information about women's hunting in these societies that was not consulted by Anderson et al. (2023) (see below), we confined our re-analysis to *only* the ethnographic sources - and sources used therein - used by Anderson et al. (2023). Thus, our goal was not to conduct an authoritative analysis of women's hunting, nor to conduct a paragraph-level analysis of Anderson et al.'s (2023) `{r} num_soc` societies. Rather, our goal was to investigate how Anderson et al. (2023) applied their coding scheme to their sources. We found that they applied it unevenly and insufficiently, and that in many ethnographies they cite there are explicit statements that contradict their coding. Our re-coding of the `{r} num_soc` societies contained in Anderson et al. (2023) can be found in Table S1, and serves as the basis for the following points.
+
+### Subsistence and population selection
+
+```{r}
+# Value for following paragraph
+
+nonforager_rows <- recode$Subsistence %in% c('A', 'H', 'HH')
+nonforagers_vec <- str_glue("{recode$Society[nonforager_rows]} ({recode$Subsistence[nonforager_rows]})")
+nonforagers <- str_flatten(nonforagers_vec, collapse = ', ', last = ', and ')
+
+```
+
+The first issue pertained to subsistence and population selection. Though nominally focused on hunter-gatherer (forager) subsistence, Anderson et al. (2023) included some horticultural and large-scale agricultural societies in their dataset, incorrectly described as foragers. Mixed-subsistence horticulturalists (H, HH) and agriculturalists (A) mis-coded as foragers in their list of 63 societies include the `{r} nonforagers`. This is likely because D-PLACE does not classify societies by subsistence type, but rather by the relative contribution of food sources to the diet. Though all anthropologists acknowledge that these historical subsistence labels are imperfect and may not reflect current subsistence behavior, it is common practice among ethnographers to account for subsistence history because it exerts major influences on social organization and behavior, and additionally, it acknowledges populations' land rights [@Kelly2013-fw; @Codding2016-ra].
+
+### References to secondary literature
+
+Second, we found that many references were taken from the secondary literature. Drawing on secondary sources is problematic because they are often divorced from ethnographic context and strip relevant information that might have been present in the source ethnography. Specifically, 15/63 cases were secondary references, and 14/63 cases referenced a single nearly 30-year-old secondary source [@Brightman1996-br]. Significant discrepancies are apparent between Table 1 of Anderson et al. (2023) and their Supporting Information spreadsheet, with 31/63 cases having different references. Also, 15/63 cases on the Supporting Information table did not have a reference listed at all. Also in 15/63 cases, Anderson et al. (2023) cited a source with evidence that actually comes from at least one other source that they do not reference. We refer to this in our Table S1 as an undisclosed secondary source (USS).
+
+### Inconsistent coding
+
+Third, coding was inconsistent. For example, the Jahai of Malaysia were coded as not having female hunters based on an explicit statement in van der Sluys [@Van_Der_Sluys1996-yt] that 'women never hunt.' Yet this is the same type of statement found for the !Kung, which Anderson et al. (2023) coded as a society in which women do hunt: "... women are totally excluded from hunting. Women never participate in a !Kung hunt..." [@Marshall1976-bm]. Similarly, Lee (1979: 235)[@Lee1979-ub] wrote "Women do not hunt."
+
+### Insufficient search for source material
+
+Fourth, though Anderson et al. (2023) investigated each society "by searching through the original references cited in D-PLACE [@Kirby2016-it], Binford [@binford2023], and by searching digitized databases and archives," there are instances in which well-known authoritative sources were not consulted. For example, Anderson et al. (2023) coded the Batek of Malaysia as having female hunters based on Endicott [@Endicott1984-qz]; however, a more recent book by the same author provides quantitative information on female contributions. Endicott & Endicott [@Endicott2007-us] wrote: "Still, women procured 2 percent by weight of the animals hunted by nonblowpipe methods and 22 percent of all bamboo rats." Women procured no animals using the blowpipe (Table 4.1, p. 76)[@Endicott2007-us]. The !Kung were also coded by Anderson et al (2023) as having female hunters. Yet in her famous ethnography *Nisa: The Life and Words of !Kung Woman*, Shostak (1982:220)[@Shostak1982-zb] wrote: "!Kung women cannot be considered hunters in any serious way..." A similar case prevails for the Tsimane horticulturalists of Bolivia. The authors cite Medinaceli and Quinlan [@Medinaceli2018-xw], but they ignore a recent case study on Tsimane women hunting [@Reyes-Garcia2020-uw].
+
+### Pseudoreplication
+
+The fifth issue concerns pseudoreplication, in which the same case is counted more than once. This leads to inflated and inaccurate estimates. There are several examples. The !Kung and Ju/hoansi are treated as independent points, but these terms refer to the same population [@Lee1979-ub] . The same holds for the Agta and Ayta of the Philippines [@Goodman1985-xe]. Moreover, the Efe, Sua and Mbuti (BaMbuti), and the Mardujara and Martu (Martu), are each counted independently despite being members of the same ethnolinguistic groups [@Bahuchet2012-je; @Tonkinson1978-yd]. We recognize that these errors by Anderson et al. (2023) are not deliberate. Indeed, in at least one case it may be valid to count these as independent data points. The Efe and Mbuti live in close proximity but are known to have divergent hunting strategies. The Efe are traditionally bow-hunters, whereas the Mbuti are traditionally primarily net-hunters [@Bailey1989-yt]. However, due to the potential for cultural autocorrelation to inflate the frequency of women's hunting, such decisions should be acknowledged and justified.
+
+### No mention of women hunting in source material
+
+The sixth issue is that, for some references, we could not track down any mention of women's hunting at all in the source text (Ganij). In another case, hunting was mentioned, but it did not involve women (Lardil). A further case described trapping snares being made of women's hair, but women are not otherwise described as being involved in hunting labor (Maidu). In several instances (the Lardil, Torres Strait Islanders, Inuit, and Kalaallit) fishing was coded as hunting, a distinction that was not made clear in the manuscript text even though these categories are customarily distinguished by anthropologists [@Kelly2013-fw].
+
+### Hunting is not a binary phenomenon
+
+The seventh issue is that Anderson et al. (2023) conflate *any* mention of women's hunting with evidence of women being consistently involved in hunting, especially of large game. For example, Ruth Landes' [@Landes1938-vf] study of Ojibwa women is cited as evidence of women hunting. Indeed, Landes describes a few cases of women who chose to be hunters. However, she also states "those women who cross the occupational line and take up mens work, do so casually, under the pressure of circumstances or of personal inclination....[Other] Women regard them as extraordinary or queer." That is, Landes is noting that these women are very much the exception rather than the rule (Landes 1938: 136). Likewise, for the Central Eskimo (Inuit), Boas descibes two instances of women hunting, one a secondary report from which he obtained from John Rae's 1845-46 account of his travels. Rae's account, which Boas recounts in its entirety, is a description of women hunting sun-bathing seals opportunistically with clubs (since they don't carry spears). The other is an account of women assisting in a communal hunting effort of breathing-hole sealing, in which the women (and children) guard breathing holes and scare the seals away, forcing them to surface at a hole where a man is stationed with his spear ready. Again, though, Anderson et al. (2023) do not relate Boas comments that speak to the general pattern of behavior: For a typical day, the men go hunting, "meanwhile the women, who stay at home, are engaged in their domestic occupations, mending boots and making new clothing ..." (Boas, 1889)(1964: 154)[@Boas1889-uv]. And, "the principal part of the mans work is to provide for his family by hunting, i.e., for his wife and children....The woman has to do the household work, the sewing, and the cooking. She must look after the lamps, make and mend the tent and boat covers, prepare the skins, and bring up young dogs." (Boas, 1889)(1964: 171-2)[@Boas1889-uv].
+
+## A re-analysis of Anderson et al.’s (2023) ethnographic sources
+
+In light of these issues, we re-coded three of Anderson et al.’s (2023) variables using the same ethnographic sources they cite (@tbl-recode and @fig-errors). In place of Anderson et al.’s binary hunting variable, we coded the frequency of women’s hunting in each society based on contextual information (Table 1). Our five hunting frequency categories were: no evidence for women hunting, evidence that women did not hunt, and evidence for women hunting rarely, sometimes, or frequently. We did this separately for two prey sizes. Anderson et al. (2023) coded four prey size categories: small game (1), medium game (2), large game (3), and all (4). The criteria by which small, medium, and large game were distinguished was not specified or operationalised, and no standard body-size cut-off was used. In some cases, prey size was determined indirectly. For example, in some instances, prey species were coded as ‘large game’ on the basis of being struck with large sticks and machetes. As large sticks and machetes can be used to kill prey of a range of body sizes, we find this criterion problematic. We followed a standard cut-off used in zooarchaeology, adopting the criteria of small-medium game (<45 kg) versus large game ($\ge45$ kg)  [@Barnosky2008-jm; @Meltzer2020-sa]. We therefore had two women’s hunting variables: the frequency of hunting small-medium game, and the frequency of hunting large game. We also re-coded the primary mode of subsistence for each society.
+
+:::{#fig-errors}
+![](Figures/errors.png)
+
+Diagram highlighting issues with the sampling methodology and coding of Anderson et al. (2023). Blue boxes indicate data sampling and coding by Anderson et al. (2023). Red boxes describe sampling errors. Orange boxes describe coding errors. Nearly two dozen societies were drawn from outside D-PLACE without explanation, and these were heavily biased toward positive reports of female hunting. At least 18 societies were present in D-PLACE that had explicit descriptions of hunting but were not included in the analysis of Anderson et al. (2023); none of these describe women’s hunting (see footnote 5). We also identified at least 26 societies outside of D-PLACE with explicit descriptions of hunting. Women’s hunting is uncommon or absent in these societies. Anderson et al. (2023) appear to have biased their inclusion of non-D-PLACE societies in their analysis toward societies in which women hunt. Taken together, improperly including societies biased toward women’s hunting and improperly excluding societies with little or no evidence of women’s hunting likely led to sampling bias. A definitive accounting of the proportion of forager societies in which women hunt must await a future study with a rigorous and unbiased sampling strategy.
+:::
+
+
+```{r}
+#| label: tbl-recode
+#| tbl-cap: "Our recoding of women's frequencies of hunting small-medium and large game. Societies in bold are coded by Anderson et al. (2023) as women hunting."
+
+recode_table
+```
+
+```{r}
+# computed values for the following paragraph
+anderson_pos <- sum(anderson$anderson_hunt) # 0/1
+anderson_neg <- sum(anderson$anderson_hunt == 0)
+false_neg <- sum(recode$false_negative)
+false_pos1 <- sum(recode$false_positive1) 
+false_pos2 <- sum(recode$false_positive2)
+falsepos_ratio1 <- ratio_fmt(false_pos1, anderson_pos)
+falsepos_ratio2 <- ratio_fmt(false_pos2, anderson_pos)
+falseneg_ratio <- ratio_fmt(false_neg, anderson_neg)
+```
+
+We then compared the binary Anderson et al. hunting variable with our two hunting frequency variables. Of the `{r} anderson_pos` societies that Anderson et al. (2023) coded as women hunting, we found that in `{r} false_pos2` of them, there was either no evidence for women hunting or evidence against women hunting. In a further `{r} false_pos1 - false_pos2`, there was only evidence that women hunted rarely. Hence, from `{r} falsepos_ratio2` to `{r} falsepos_ratio1` of the societies that Anderson et al. (2023) coding as women hunting were false positives. We also found that `{r} falseneg_ratio` of the societies that Anderson et al. coded as no women hunting in fact did have evidence of women hunting, i.e., were false negatives. See @fig-false-both.
+
+:::{#fig-false-both}
+![](Figures/plot_false_both.png)
+
+Comparison of Anderson et al. (2023) coding (left and right panels) to our re-coding (x and y axes). Dot size indicates the number of societies with that combination of women’s small and large game hunting frequency. **Left**: Societies that Anderson et al. coded as women do not hunt. There were `{r} false_neg` societies for which we found some evidence of women hunting (blue box, false negatives). **Right**: Societies that Anderson et al. coded as women hunt. There were `{r} false_pos2` societies for which we either found no evidence that women hunted, or evidence that women did not hunt, and `{r} false_pos1` societies for which we either found no evidence that women hunted, or evidence that women’s hunting was either rare or absent (blue boxes, false positives). See also Table 1 and Table S1.
+:::
+
+```{r}
+# Computed values for the following paragraph
+a_num_preysize <- sum(!is.na(anderson$anderson_preysize))
+a_num_biggame <- sum(anderson$anderson_preysize == 3, na.rm = T)
+a_num_all <- sum(anderson$anderson_preysize == 4, na.rm = T)
+a_num_big_tot <- a_num_biggame+a_num_all
+a_biggame_ratio <- ratio_fmt(a_num_big_tot, a_num_preysize)
+
+# recode ratios
+
+lg_ratios <- 
+  map2_chr(
+    table(recode$large_game[recode$anderson_largegame]),
+    a_num_big_tot, 
+    ratio_fmt
+  )
+
+lg_ratios <- 
+  str_flatten(str_glue("{names(lg_ratios)}: {lg_ratios}"), collapse = "; ", last = "; and ")
+
+```
+
+We also re-assessed the claim that a third or more of the surveyed societies showed evidence of women participating in big-game hunting by comparing the Anderson et al. (2023) prey size variable with our two hunting frequency variables. Of the `{r} num_soc` societies with ‘explicit evidence of hunting’, Anderson et al. (2023) located prey sizes for `{r} a_num_preysize`, `{r} a_num_biggame` of which they coded as hunting big game (`{r} 100*round(a_num_biggame/a_num_preysize, 2)`%), and `{r} a_num_all` as hunting game of all sizes, for a total of `{r} a_biggame_ratio` of societies as women being involved in large-game hunting. In our re-coding of women's large game hunting frequency for these  `{r} a_num_big_tot`, we instead found `{r} lg_ratios`. Thus, less than a third of those originally coded involved regular female large-game hunting. Of the cases that do involve large-game hunting by women, in multiple instances the ethnographer explicitly stated that it was *very rare*. Some only described cases of women hunting large game alone after the death of their husbands. Other cases pertained to communal whale hunting, or involved dogs. Some occurred in the context of husband-wife pairs where women contributed to hunting success indirectly. Some cases involved firearms, a uniquely modern technology that was unavailable during human prehistory.
+
+```{r}
+# Computed values for the following paragraph
+
+recode_large <- table(recode$large_game)
+recode_large_ratio <- ratio_fmt(recode_large[4] + recode_large[5], num_soc)
+
+recode_ratios <- 
+  map2_chr(
+    recode_large,
+    num_soc, 
+    ratio_fmt
+  )
+
+recode_ratios <- 
+  str_flatten(str_glue("{names(recode_ratios)}: {recode_ratios}"), collapse = "; ", last = "; and ")
+
+```
+
+In our own re-coding of the frequency of big game hunting in all 63 societies (i.e., in the  `{r} a_num_big_tot` that Anderson et al. coded as big game hunting, as well as in the  `{r} num_soc - a_num_big_tot` that they coded as no big game hunting, and ignoring pseudo-replication) we found the following,  `{r} recode_ratios`. Thus, in only `{r} recode_large_ratio` societies in Anderson et al. (2023) could women be said to “regularly” hunt big game (but two of those `{r} recode_large[4] + recode_large[5]`, the Agta and Ayta, are the same population). See @tbl-recode and @fig-preysize.
+
+:::{#fig-preysize}
+![](Figures/plot_preysize.png)
+
+Comparison of Anderson et al. (2023) prey size coding (the four panels) with our prey size re-coding (x and y axes). Dot size indicates the number of societies with that combination of women’s small and large game hunting frequency according to our coding. For comparison with our coding, we combined the Anderson et al. small (1) and medium (2) categories. Societies inside and outside the orange boxes are those where the Anderson et al. coding of prey size is consistent and inconsistent with ours, respectively. Anderson et al. coded two societies as women hunting both small-medium and large game, which we placed in the “Large game” panel (upper right). We categorized frequent or occasional hunting of a prey size as consistent with the claim that women hunted that prey size, and inconsistent otherwise.
+:::
+
+Due to the sampling bias and insufficient search for source material in Anderson et al. (2023), our revised estimates of the frequency of women’s hunting in their dataset are *not* to be taken as representative of foraging societies. Our point, rather, is that (1) the Anderson et al. (2023) data, even though likely heavily biased toward societies in which women hunt, nevertheless only support a much lower estimate of frequent hunting by women, and (2) the estimates can vary wildly depending on inclusion criteria and coding decisions.
+
+# Conclusion
+
+We agree with Anderson et al. (2023) that we should dispel the categorically false notion that forager women do not hunt or are unable to hunt, and we thank them for bringing this important topic to the public forum. Though we appreciate their intent, Anderson et al. (2023) do not overturn current consensus views on gendered divisions of labor among contemporary foragers, which are based on a substantial body of empirical evidence. Like Anderson et al (2023), we acknowledge this body of evidence is significantly filtered through the lenses and experiences of 20th century ethnographers who may have had their own biases and interests, but were likely less aware of their positionality and its impact on their subsequent ethnographic descriptions.
+
+We have outlined several conceptual and methodological concerns with Anderson et al.'s (2023) analysis. Specifically, Anderson et al. (2023) is not reproducible because their sampling criteria are not clear and 35% of the societies in their sample do not come from D-PLACE, the database they claim was the source of all the societies in their sample. Moreover, these 35% were heavily biased toward societies that they coded as ones in which women hunt. There are many other societies with extensive information on hunting that are also not in D-PLACE yet were not included in their analysis, as well as authoritative sources on hunting in the societies in the Anderson et al. (2023) sample that were not consulted. Additionally, there are at least 18 societies in D-PLACE with information on hunting that were inexplicably omitted from their analysis, none of which provide evidence for women hunters. 
+
+Finally, there were numerous coding errors. Of the `{r} ratio_fmt(anderson_pos, num_soc)` societies that Anderson et al. (2023) coded as ones in which women hunt, for example, our re-coding found that women rarely or never hunted in `{r} falsepos_ratio1`; we also found `{r} false_neg` false negatives. Overall, we found evidence in the biased Anderson et al. (2023) data set that in `{r} ratio_fmt(sum(recode$women_hunt), num_soc)` societies, women hunt "Sometimes" or "Frequently". Moreover, compared to the `{r} ratio_fmt(a_num_big_tot, num_soc)` societies in which women were claimed to regularly hunt big game, our re-coding found that this was true for only `{r} recode_large_ratio`. A precise estimate of women's hunting in foraging societies must await a future thorough and unbiased analysis of the ethnographic record (see, e.g., [@Hoffman2023-hv]), but it is certainly far less than the Anderson et al. (2023) estimate and is very unlikely to overturn the current view that it is relatively rare.
+
+The fundamental issue is that women's hunting is not a binary phenomenon, and treating it as such, especially with a very low threshold for classifying a society as one in which women hunt, obfuscates gendered divisions of labor within groups. Anthropologists have long recognized that the nature of cooperation in foragers is complex and multi-faceted, and women's and men's subsistence activities play important and often complementary roles. Moreover, women's hunting has been studied for decades, and anthropologists have a good understanding of when and why it occurs. Yet, to focus on hunting at the expense of other critical activities - from gathering and food processing, to water and firewood collection, to the manufacture of clothing, shelters, and tools, to pregnancy, childbirth, nursing, childcare, and healthcare, to education, marriages, rituals, politics, and conflict resolution - is to downplay the complexity, and thereby the importance of women's roles in the foraging lifeway. In order to build a more complete picture of the lives of foragers in the present and the past, it serves no one to misrepresent reality. In correcting the misapprehension that women do not hunt, we should not replace one myth with another.
+
+# Supporting information 
+
+::: {.supp}
+## S1 Appendix. {#s1-appendix}
+
+**Inter-rater reliability**
+
+[TBD: Discussion of independent coding by VV, JH, and KF...and then SL...and then KS...]
+
+![](Figures/agree_small.png)
+
+![](Figures/agree_large.png)
+:::
+
+::: {.supp}
+## S1 Data and code. {#s1-data}
+
+**Recoded data and analysis script**
+
+<https://github.com/grasshoppermouse/anderson_critique>
+
+:::
+
+# Acknowledgments
+
+We thank XX, YY, and ZZ for their helpful comments...
+
+[^1]: We follow Anderson et al. (2023) in referring to sex as biologically denoted traits whereas gender refers to culturally denoted traits reflecting the intersection of social norms and personal expression. Thus with respect to modern foragers we use the phrase 'gendered division of labor' in most places. When referring to archaeological and paleontological cases, we generally use the phrase 'sexual division of labor', acknowledging that cultural roles are difficult to show in such cases. In some instances, we use the phrase 'gendered/sexual division of labor' to reflect this uncertainty.
+
+[^2]: We refer to large and big game interchangeably. We use the criteria of small-medium (\<45 kg) game versus large game (\>=45 kg) [@Barnosky2008-jm; @Meltzer2020-sa].
+
+[^3]: See Bliege Bird and Codding (2021) for a recent discussion on gender bias in datasets such as the *Ethnographic Atlas*. Owen (2005) highlights how subsistence behavior of the Angmagsalik Inuit of East Greenland is coded in the *Ethnographic Atlas*. The Angmagsalik are coded as relying on 100% of food procured by men; 80% from aquatic sources (shellfishing and hunting of large aquatic mammals), and 20% from terrestrial hunting. Gathering receives 0%. But, after investigating the primary ethnographic sources, Owen (2005) found that the Angmagsalik in fact rely on greens, roots, berries, seaweed, and a wide variety of other plants. Fish and bird eggs as well as shellfish were also gathered by men and women. Women also aided in the snaring and trapping of small game, with rare participation in large game hunting.
+
+[^4]: "Reproduction" is defined as obtaining the same results as a given study using the same data and same methods, and "replication" as obtaining similar results using new data and similar methods as one or more previous studies [@National_Academies_of_Sciences2019-ow]. We did both. We first tried to reproduce Anderson et al. (2023) by following their methods to obtain the same texts from the same database. When this failed, we tracked down most of their sources and recoded them.
+
+[^5]: In the interest of reproducing the study of Anderson et al (2023) as closely as possible, we do not limit our attention to foragers. While Anderson et al. (2023) refer to all societies in their study as foragers, they did not, in fact, distinguish between subsistence types in their study, labeling several horticulturalist and agriculturalist groups as foragers (see Section 1.2). Also, in this section of our critique, we worked with population names in the datasets as they were presented, not adjusting for potential cases of pseudoreplication (see Section 1.2).
+
+[^6]: For example, Koster et al (2020)[@Koster2020-jg] presented data on 40 small-scale societies. The data are largely unbiased toward the description of female hunting (J. Koster, *pers comm*). Only 3/40 societies (Baka, Tsimane, Martu) showed evidence for women's hunting. Similarly, the SI of Kraft et al. (2021)[@Kraft2021-hi] has detailed information on the source data, including gendered aspects of foraging.
+
+[^7]: To get a sense of the frequency of women's hunting in the broader scheme, we referenced the variable on D-PLACE for sex differences in hunting (EA051). Because hunter-gatherers as a subsistence type cannot be isolated, we considered all societal types. The category of \"Males Alone\" contained 861 entries, \"Both, Men More\" contained 14, and the \"Activity Absent\" category contained 90. There are 0 cases for the other 6 categories, ranging from \"Differentiated but Equal\" to \"Both, Females More\" and \"Females Alone". These values should be viewed with caution, as there is reason to believe that female contributions to subsistence have been underestimated in the *Ethnographic Atlas* [@Bliege_Bird2021-kv].

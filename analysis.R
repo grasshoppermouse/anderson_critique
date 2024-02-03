@@ -6,7 +6,7 @@ library(knitr)
 library(readxl)
 library(patchwork)
 
-# Anderson et al. (2023) ACNRW
+# Anderson et al. (2023)
 # https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0287101
 
 # Uncomment to download excel data file from Anderson et al. (2023)
