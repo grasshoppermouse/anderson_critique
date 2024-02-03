@@ -10,10 +10,10 @@ library(patchwork)
 # https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0287101
 
 # Uncomment to download excel data file from Anderson et al. (2023)
-# download.file("https://doi.org/10.1371/journal.pone.0287101.s001", "journal.pone.0287101.s001.xlsx", "auto")
+# download.file("https://doi.org/10.1371/journal.pone.0287101.s001", "data/journal.pone.0287101.s001.xlsx", "auto")
 
 anderson <- 
-  read_excel("journal.pone.0287101.s001.xlsx", range = cell_cols("A:Q")) |>  # omit refs
+  read_excel("data/journal.pone.0287101.s001.xlsx", range = cell_cols("A:Q")) |>  # omit refs
   rename(
     anderson_subsistence = `Subsistence Economy: Most important activity (0=gathering, 1=hunting, 2=fishing, 3=hunt/gather)`,
     anderson_preysize = `small (1), medium (2), large game (3), all (4)`,
@@ -34,7 +34,7 @@ anderson <-
 hunt_freq <- c('No evidence', 'Never', 'Rarely', 'Sometimes', 'Frequently')
 
 recode <- 
-  read_excel('recoding.xlsx', skip = 1, na = 'N/A') |> 
+  read_excel('data/recoding.xlsx', skip = 1, na = 'N/A') |> 
   dplyr::select(Society, Subsistence...6:Pseudoreplication) |> # Omit our copy of the Anderson data
   rename(
     Subsistence = Subsistence...6,
@@ -73,7 +73,7 @@ recode <-
 #' # Inter-rater reliability
 
 rater2 <- 
-  read_excel("Intercoding_wh_20240130 SLL.xlsx", skip = 1) |> 
+  read_excel("data/Intercoding_wh_20240130 SLL.xlsx", skip = 1) |> 
   rename(
     small_game2 = `Hunt small-medium game (<45kg)`,
     large_game2 = `Hunt large game (≥45kg)`
