@@ -2,14 +2,21 @@
 
 library(tidyverse)
 library(vcd)
-library(knitr)
 library(readxl)
+library(knitr)
 library(patchwork)
+library(scico)
+
+if (!dir.exists("Figures")){
+  dir.create("Figures")
+}
+
+source('interrater_reliability.R')
 
 # Anderson et al. (2023)
 # https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0287101
 
-# Uncomment to download excel data file from Anderson et al. (2023)
+# Uncomment to download Excel data file from Anderson et al. (2023)
 # download.file("https://doi.org/10.1371/journal.pone.0287101.s001", "data/journal.pone.0287101.s001.xlsx", "auto")
 
 anderson <- 
@@ -31,10 +38,9 @@ anderson <-
   ) |> 
   dplyr::select(anderson_subsistence, anderson_subsistence2, anderson_preysize, anderson_hunt)
 
-hunt_freq <- c('No evidence', 'Never', 'Rarely', 'Sometimes', 'Frequently')
-
+# Final recoding (after independent recoding and review)
 recode <- 
-  read_excel('data/recoding.xlsx', skip = 1, na = 'N/A') |> 
+  read_excel('data/recoding.final.xlsx', skip = 1, na = 'N/A') |> 
   dplyr::select(Society, Subsistence...6:Pseudoreplication) |> # Omit our copy of the Anderson data
   rename(
     Subsistence = Subsistence...6,
@@ -54,6 +60,14 @@ recode <-
       .default = NA
     ),
     anderson_preysize2 = factor(anderson_preysize2, levels = c('Anderson et al.: Small/medium game', 'Anderson et al.: Large game', 'Anderson et al.: Unknown size', 'Anderson et al.: No hunting')),
+    anderson_preysize3 = case_when(
+      anderson_preysize == 1 ~ 'Small',
+      anderson_preysize == 2 ~ 'Medium',
+      anderson_preysize == 3 ~ 'Large',
+      anderson_preysize == 4 ~ 'All',
+      .default = 'No hunting'
+    ),
+    anderson_preysize3 = factor(anderson_preysize3, levels = c('No hunting', 'Small', 'Medium', 'Large', 'All')),
     psuedo_rep = str_detect(Pseudoreplication, "Yes"),
     small_game = str_to_sentence(small_game),
     large_game = str_to_sentence(large_game),
@@ -69,51 +83,6 @@ recode <-
     contains('anderson'),
     .after = Society
   )
-
-#' # Inter-rater reliability
-
-rater2 <- 
-  read_excel("data/Intercoding_wh_20240130 SLL.xlsx", skip = 1) |> 
-  rename(
-    small_game2 = `Hunt small-medium game (<45kg)`,
-    large_game2 = `Hunt large game (≥45kg)`
-  ) |> 
-  mutate(
-    small_game2 = ifelse(small_game2 == 'NA', 'No evidence', small_game2),
-    large_game2 = ifelse(large_game2 == 'NA', 'No evidence', large_game2),
-    small_game2 = ifelse(small_game2 == '?', 'No evidence', small_game2), # Need to confirm this
-    large_game2 = ifelse(large_game2 == '?', 'No evidence', large_game2), # Need to confirm this
-    large_game2 = ifelse(large_game2 == 'never', 'Never', large_game2),
-    small_game2 = ifelse(small_game2 == 'Rare', 'Rarely', small_game2),
-    large_game2 = ifelse(large_game2 == 'Rare', 'Rarely', large_game2),
-    small_game2 = factor(small_game2, levels = c('No evidence', 'Never', 'Rarely', 'Sometimes', 'Frequently'), ordered = T),
-    large_game2 = factor(large_game2, levels = c('No evidence', 'Never', 'Rarely', 'Sometimes', 'Frequently'), ordered = T)
-  )
-
-# Fix some misspellings in rater2?
-
-rater2$Society[rater2$Society == 'Karuareg'] <- 'Kaurareg'
-rater2$Society[rater2$Society == 'Fish Lake Valley Northern Paiute'] <- 'Fish Lake Valley North Paiute'
-rater2$Society[rater2$Society == 'Torres Straight Islanders'] <- 'Torres Strait Islanders'
-setdiff(rater2$Society, recode$Society)
-
-rater2b <- 
-  left_join(rater2, recode[c('Society', 'small_game', 'large_game')]) |> 
-  dplyr::select(Society, small_game, small_game2, large_game, large_game2) |> 
-  na.omit()
-
-#+ fig.width=9, fig.height=9
-ragg::agg_png("Figures/agree_small.png", width = 800, height = 800)
-par(mai = c(1.5,1.5,1.5,1.5))
-b_small <- agreementplot(~small_game+small_game2, data = rater2b, main = 'Small game', xlab = 'SL', ylab = 'VV', ylab_rot = 0, ylab_just = 'right')
-dev.off()
-b_small
-
-ragg::agg_png("Figures/agree_large.png", width = 800, height = 800)
-par(mai = c(1.5,1.5,1.5,1.5))
-b_large <- agreementplot(~large_game+large_game2, data = rater2b, main = 'Large game', xlab = 'SL', ylab = 'VV', ylab_rot = 0, ylab_just = 'right')
-dev.off()
-b_large
 
 #' # Anderson et al. (2023) results
 
@@ -147,17 +116,23 @@ ggsave("Figures/plot_recode.svg", plot_recode)
 
 recode_table <-
   recode |> 
-  dplyr::select(Society, small_game, large_game, anderson_hunt) |> 
-  mutate(Society = ifelse(anderson_hunt == 1, paste0('**', Society, '**'), Society)) |> 
+  dplyr::select(Society, small_game, large_game, anderson_preysize) |> 
   pivot_longer(c(small_game, large_game), names_to = 'Prey_size', values_to = 'Frequency') |> 
   group_by(Prey_size, Frequency) |> 
+  mutate(
+    Society = case_when(
+      anderson_preysize %in% c(1,2,4) & Prey_size == 'small_game' ~ paste0('**', Society, '**'),
+      anderson_preysize %in% c(3,4) & Prey_size == 'large_game' ~ paste0('**', Society, '**'),
+      .default = Society
+    )
+  ) |> 
   summarise(
     Societies = paste0('[',n(), ']: ', str_flatten_comma(sort(Society))),
     .groups = 'drop'
   ) |> 
   pivot_wider(names_from = 'Prey_size', values_from = 'Societies') |> 
   relocate(small_game, .before = large_game) |> 
-  kable(col.names = c('Frequency', 'Women hunt small-medium game (<45kg)', 'Women hunt large game (>45 kg)'))
+  kable(col.names = c('Frequency', 'Women hunt small-medium game (<45kg)', 'Women hunt large game (≥45 kg)'))
 
 # Comparing Anderson et al. results to our results
 
@@ -253,7 +228,7 @@ plot_false_pos <-
 plot_false_pos
 
 plot_false_both <- plot_false_neg + plot_false_pos
-ggsave("Figures/plot_false_both.pdf", width = 14, height = 8)
+ggsave("Figures/plot_false_both.pdf", width = 14, height = 8, device = cairo_pdf)
 ggsave("Figures/plot_false_both.png", width = 14, height = 8)
 
 # Prey size inconsistencies
@@ -303,7 +278,7 @@ consistent <- tibble(
   text = str_glue("Consistent: {consistent} Inconsistent: {inconsistent}")
 )
 
-#+ fig.width=10
+#+ fig.width=12
 plot_preysize <-
   ggplot(recode, aes(small_game, large_game)) +
   geom_count() + 
@@ -316,5 +291,46 @@ plot_preysize <-
   coord_fixed() +
   theme_bw()
 plot_preysize
-ggsave("Figures/plot_preysize.pdf", plot_preysize, width = 10, height = 10)
+ggsave("Figures/plot_preysize.pdf", plot_preysize, width = 10, height = 10, device = cairo_pdf)
 ggsave("Figures/plot_preysize.png", plot_preysize, width = 10, height = 10)
+
+recode |> 
+  dplyr::select(
+    Society, anderson_smallgame, anderson_largegame, `Information from references`, small_game, large_game
+  ) |> 
+  rename(
+    `Anderson small game` = anderson_smallgame,
+    `Anderson large game` = anderson_largegame
+  ) |> 
+  DT::datatable()
+
+plot_anderson_preysize <-
+  ggplot(recode, aes(x="", fill = fct_rev(anderson_preysize3))) +
+  geom_bar(position = 'stack') +
+    scale_fill_scico_d(direction = -1, palette = 'lapaz', end = 0.9) +
+    guides(fill = guide_legend('Prey size')) +
+    labs(title = 'Anderson et al. (2023)', x = '', y = 'Number of\nsocieties') +
+    theme_minimal(15) +
+    theme(axis.title.y = element_text(angle = 0, hjust = 1))
+# plot_anderson_preysize
+
+plot_preysize_recode <- 
+  recode |> 
+  dplyr::select(small_game, large_game) |> 
+  rename(
+    `<45kg` = small_game,
+    `≥45kg` = large_game
+  ) |> 
+  pivot_longer(1:2) |> 
+  ggplot(aes(name, fill = fct_rev(value))) +
+  geom_bar(position = 'stack') +
+  scale_fill_scico_d(direction = -1, palette = 'lajolla', end = 0.9) +
+  guides(fill = guide_legend('Hunting frequency')) +
+  labs(title = 'Our recoding', x = 'Prey size', y = '') +
+  theme_minimal(15) +
+  theme(axis.title.y = element_text(angle = 0, hjust = 1))
+
+ggsave("Figures/plot_raw.pdf", plot_anderson_preysize + plot_preysize_recode, width = 12, height = 9, device = cairo_pdf)
+ggsave("Figures/plot_raw.png", plot_anderson_preysize + plot_preysize_recode, width = 12, height = 9)
+
+sessionInfo()

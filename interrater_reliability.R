@@ -25,7 +25,7 @@ recode_prelim <-
 
 # Independent rater 2 (SL)
 rater2 <- 
-  read_excel("data/Intercoding_wh_20240130 SLL_vv_SLL_new.xlsx", skip = 1) |>
+  read_excel("data/rater2_SL.xlsx", skip = 1) |>
   slice(-c(60, 61, 62)) |> # Coded twice
   rename(
     small_game2 = `Hunt small-medium game (<45kg)`,
@@ -70,7 +70,7 @@ b_large2
 # Independent rater 3 (KS)
 
 rater3 <- 
-  read_excel("data/Anderson Response - Table S1 Updated_katie.xlsx", skip = 1) |> 
+  read_excel("data/rater3_KS.xlsx", skip = 1) |> 
   rename(
     small_game3 = `Hunt small-medium game (<45kg)`,
     large_game3 = `Hunt large game (≥45kg)`
