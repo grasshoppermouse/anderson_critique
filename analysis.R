@@ -41,11 +41,12 @@ anderson <-
 # Final recoding (after independent recoding and review)
 recode <- 
   read_excel('data/recoding.final.xlsx', skip = 1, na = 'N/A') |> 
-  dplyr::select(Society, Subsistence...6:Pseudoreplication) |> # Omit our copy of the Anderson data
+  dplyr::select(Society, Subsistence...6:`Logic of frequency coding`) |> # Omit our copy of the Anderson data
   rename(
     Subsistence = Subsistence...6,
     small_game = `Hunt small-medium game (<45kg)`,
-    large_game = `Hunt large game (≥45kg)`
+    large_game = `Hunt large game (≥45kg)`,
+    Rationale = `Logic of frequency coding`
   ) |> 
   bind_cols(anderson) |> # fragile, but the rows are in the same order
   mutate(
@@ -293,16 +294,6 @@ plot_preysize <-
 plot_preysize
 ggsave("Figures/plot_preysize.pdf", plot_preysize, width = 10, height = 10, device = cairo_pdf)
 ggsave("Figures/plot_preysize.png", plot_preysize, width = 10, height = 10)
-
-recode |> 
-  dplyr::select(
-    Society, anderson_smallgame, anderson_largegame, `Information from references`, small_game, large_game
-  ) |> 
-  rename(
-    `Anderson small game` = anderson_smallgame,
-    `Anderson large game` = anderson_largegame
-  ) |> 
-  DT::datatable()
 
 plot_anderson_preysize <-
   ggplot(recode, aes(x="", fill = fct_rev(anderson_preysize3))) +
