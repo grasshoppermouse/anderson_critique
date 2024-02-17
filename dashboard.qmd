@@ -1,0 +1,64 @@
+---
+title: "Recoded data from Anderson et al. (2023)"
+format: 
+  dashboard:
+    theme: yeti
+    nav-buttons:
+      - icon: github
+        href: https://github.com/grasshoppermouse/anderson_critique
+        aria-label: GitHub
+---
+
+```{r}
+#| include: false
+source('analysis.R')
+
+data <-
+  recode |> 
+  dplyr::select(
+    Society, 
+    anderson_preysize3, 
+    `Information from references`, 
+    `Species & body size (kg)`,
+    small_game, 
+    large_game,
+    Rationale
+  ) |> 
+  rename(
+    `Anderson prey size` = anderson_preysize3,
+    `Small game` = small_game,
+    `Large game` = large_game
+  )
+```
+
+# Data
+
+## Row
+
+```{r}
+DT::datatable(data, filter = 'top') |> DT::formatStyle(1:7, 'vertical-align'='top')
+```
+
+# Coding rubric
+
+**Anderson et al. (2023) codes**
+
+*Society*: From Anderson et al. (2023)
+
+*Prey size*: From Anderson et al. (2023). Women hunt small, medium, or large game, or do not hunt.
+
+**Our recoding**
+
+*Information from references*: Within the source ethnographies used by Anderson et al (2023), we selected text fragments that appeared to us the most relevant for coding the presence of women’s hunting, the frequency of hunting, and the size of prey hunted. While other sources contained relevant information about women’s hunting in these societies that was not consulted by Anderson et al. (2023), we confined our re-analysis to *only* the ethnographic sources - and sources used therein - used by Anderson et al. (2023). For a case to count as positive evidence for women’s hunting in our re-coding, it must involve ‘active’ participation by women (not only spiritual or ritual purposes). 
+
+*Species & body size*: Refers to prey specifically hunted by women. When prey pursued not specifically referred to, all potential prey listed. Species names taken from source ethnography; various online sources used to find average body weights. Most paragraphs contained information about prey species pursued. When this was not the case and thus no information about body size was available, we sourced potential prey species from online or ethnographic sources. These sources are listed. In cases where women are clearly not hunting based on the evidence, prey species not listed. 
+
+*Hunt small-medium game (<45kg)*, *Hunt large game (≥45kg)*: For these columns, we assessed the frequency of hunting. In cases where the body size of prey straddles the 45 kg cutoff, both columns were coded. When conflicting information is present between or within paragraphs (see the case of the !Kung, in which it is said ‘women do not hunt’, but in the same paragraph it is stated that they participate as beaters), we consider the concrete statements to overrule the general statement, thus favoring positive coding of women’s hunting. 
+
+* Frequently: Participation in hunting with some kind of regularity, including seasonal behavior. Example phrases include ‘frequently’, ‘always’, ‘common’, ‘often’, or similar. 
+* Sometimes: Participation in hunting occurs less often than frequently but more often than rarely. Example phrases include ‘occasionally’, ‘sometimes’, or similar. When cases do not give any indication of frequency but state ‘women hunt’ or the statement involves the word ‘do’, we coded this as ‘frequently’, as such definitive statements are considered to refer to habitual behavior. This is downgraded to ‘sometimes’ if there is other evidence suggesting that the behavior does not qualify as frequent (see the case of the Sua). 
+* Rarely: Participation in hunting occurred one time or rarely. Alternatively, it was based on hearsay, indicating the ethnographers themselves never observed it (suggesting rarity). This was also coded for inferred cases (e.g. authors state that net-hunting involves women, and that net-hunting involves capture of given species, but not explicitly stated that women capture given species). Phrases such as accidental, opportunistic, and chance fell under this coding. 
+* Never: Participation in hunting by women said explicitly to not occur, or that only men hunt. 
+* No evidence: No mention of women hunting, but cannot be definitively excluded. When only small or large game are mentioned, the unmentioned size class is classified as ‘no evidence.’ 
+
+*Rationale*: Our reasons for our codings of women’s small and large game hunting frequency.
