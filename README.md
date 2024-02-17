@@ -8,7 +8,7 @@ The data and `R` code for our critique of [Anderson et al. (2023) The Myth of Ma
 
 An HTML version of our critique: [Woman the Hunter? Female foragers sometimes hunt, yet gendered divisions of labor are real](https://grasshoppermouse.github.io/anderson_critique/)
 
-Here is a [table of our re-coding](dashboard.html) of the Anderson et al. (2023) data with our rationale for each coding decision.
+Here is a [table of our re-coding](https://grasshoppermouse.github.io/anderson_critique/dashboard.html) of the Anderson et al. (2023) data with our rationale for each coding decision.
 
 ## Files
 
