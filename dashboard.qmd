@@ -7,6 +7,7 @@ format:
       - icon: github
         href: https://github.com/grasshoppermouse/anderson_critique
         aria-label: GitHub
+bibliography: bibliography.bib 
 ---
 
 ```{r}
@@ -62,3 +63,25 @@ DT::datatable(data, filter = 'top') |> DT::formatStyle(1:7, 'vertical-align'='to
 * No evidence: No mention of women hunting, but cannot be definitively excluded. When only small or large game are mentioned, the unmentioned size class is classified as ‘no evidence.’ 
 
 *Rationale*: Our reasons for our codings of women’s small and large game hunting frequency.
+
+# Inter-rater reliability
+
+We evaluated inter-rater reliability using agreement plots and Bangdiwala’s $B$ statistic [@munoz1997; @Bangdiwala_2013] separately for small and large game, and for raters 2 and 3 vs. the original coding. Agreement plots depict the degree of agreement and disagreement for each category. Bangdiwala's $B$ [@Bangdiwala_2013] is the chance-corrected degree of agreement computed from the contingency table of the ratings of two raters:
+
+$$
+B = \frac{\sum_{i=1}^{k}x_{ii}^2}{\sum_{i=1}^kx_{i.}x_{.i}}
+$$
+
+where $x_{ii}$ are the values on the diagonal (i.e., the counts of agreement), and $x_{i.}$ and $x_{.i}$ are the sums of row $i$ and column $i$, respectively. The denominator is therefore the maximum possible agreement, given the marginal totals. Values of $B\ge0.81$ are interpreted as “almost perfect” agreement [@munoz1997].
+
+The weighted Bangdiwala statistic [@Bangdiwala_2013] for rater 2 agreement for small game was B = `{r} round(b_small2$Bangdiwala_Weighted, 2)`, and for rater3 was B = `{r} round(b_small3$Bangdiwala_Weighted, 2)`. The weighted Bangdiwala statistic for rater 2 agreement for large game was B = `{r} round(b_large2$Bangdiwala_Weighted, 2)`, and for rater 3 was B = `{r} round(b_large3$Bangdiwala_Weighted, 2)`. Comparing the independent re-coding of rater 3 with the original re-coding, we identified 10 societies for which there were substantial discrepancies, i.e., a difference of two or more on our ordinal scale (e.g., a coding of “Never” vs. “Sometimes”). These major discrepancies were resolved and the original recode data set updated, which is what we report.
+
+Below are agreement plots for small game and large game for the original ratings (x-axis) vs. rater 2 (y-axis, left) and rater 3 (y-axis, right). The larger outer white rectangles represent the maximum possible agreement for each category, the inner black rectangles represent complete rater agreement, and the gray rectangles represent partial agreement, i.e., adjacent ratings, such as Never vs. Rarely, or Rarely vs. Sometimes.
+
+![](Figures/agree_small.2.png)
+
+![](Figures/agree_small.3.png)
+
+![](Figures/agree_large.2.png)
+
+![](Figures/agree_large.3.png)
