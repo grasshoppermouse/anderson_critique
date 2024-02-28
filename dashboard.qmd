@@ -78,10 +78,10 @@ The weighted Bangdiwala statistic [@Bangdiwala_2013] for rater 2 agreement for s
 
 Below are agreement plots for small game and large game for the original ratings (x-axis) vs. rater 2 (y-axis, left) and rater 3 (y-axis, right). The larger outer white rectangles represent the maximum possible agreement for each category, the inner black rectangles represent complete rater agreement, and the gray rectangles represent partial agreement, i.e., adjacent ratings, such as Never vs. Rarely, or Rarely vs. Sometimes.
 
-![](Figures/agree_small.2.png)
+![](Figures/agree_small.2.png){fig-align=center width=75%}
 
-![](Figures/agree_small.3.png)
+![](Figures/agree_small.3.png){fig-align=center width=75%}
 
-![](Figures/agree_large.2.png)
+![](Figures/agree_large.2.png){fig-align=center width=75%}
 
-![](Figures/agree_large.3.png)
+![](Figures/agree_large.3.png){fig-align=center width=75%}
