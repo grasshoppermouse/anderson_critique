@@ -34,22 +34,7 @@ anderson <-
       anderson_subsistence == '1,2' ~ 'Hunting/Fishing',
       anderson_subsistence == '3' ~ 'Hunting/Gathering',
       .default = NA
-    )
-  ) |> 
-  dplyr::select(anderson_subsistence, anderson_subsistence2, anderson_preysize, anderson_hunt)
-
-# Final recoding (after independent recoding and review)
-recode <- 
-  read_excel('data/recoding.final.xlsx', skip = 1, na = 'N/A') |> 
-  dplyr::select(Society, Subsistence...6:`Logic of frequency coding`) |> # Omit our copy of the Anderson data
-  rename(
-    Subsistence = Subsistence...6,
-    small_game = `Hunt small-medium game (<45kg)`,
-    large_game = `Hunt large game (≥45kg)`,
-    Rationale = `Logic of frequency coding`
-  ) |> 
-  bind_cols(anderson) |> # fragile, but the rows are in the same order
-  mutate(
+    ),
     anderson_hunt2 = ifelse(anderson_hunt == 0, 'Anderson et al.: No', 'Anderson et al.: Yes'),
     anderson_smallgame = anderson_preysize %in% c('1', '2'),
     anderson_largegame = anderson_preysize %in% c('3', '4'),
@@ -70,6 +55,21 @@ recode <-
       .default = NA
     ),
     anderson_preysize2 = factor(anderson_preysize2, levels = c('Anderson et al.: Small/medium game', 'Anderson et al.: Large game', 'Anderson et al.: Unknown size', 'Anderson et al.: No hunting')),
+  ) |> 
+  dplyr::select(starts_with("anderson"))
+
+# Final recoding (after independent recoding and review)
+recode <- 
+  read_excel('data/recoding.final.xlsx', skip = 1, na = 'N/A') |> 
+  dplyr::select(Society, Subsistence...6:`Logic of frequency coding`) |> # Omit our copy of the Anderson data
+  rename(
+    Subsistence = Subsistence...6,
+    small_game = `Hunt small-medium game (<45kg)`,
+    large_game = `Hunt large game (≥45kg)`,
+    Rationale = `Logic of frequency coding`
+  ) |> 
+  bind_cols(anderson) |> # fragile, but the rows are in the same order
+  mutate(
     psuedo_rep = str_detect(Pseudoreplication, "Yes"),
     small_game = str_to_sentence(small_game),
     large_game = str_to_sentence(large_game),
@@ -189,7 +189,7 @@ plot_false_neg <-
   labs(
     title = "Anderson et al. (2023)",
     subtitle = "No women hunting",
-    x = '\nSmall/medium game hunting (<45kg)', 
+    x = '\nSmall/medium game hunting (<45kg)',
     y = 'Large game hunting (≥45kg)'
     ) +
   guides(size = guide_none()) +
@@ -220,7 +220,7 @@ plot_false_pos <-
   scale_y_discrete(limits = levels(recode$small_game)) +
   labs(
     subtitle = "Women hunting",
-    x = '\nSmall/medium game hunting (<45kg)', 
+    x = '\nSmall/medium game hunting (<45kg)',
     y = 'Large game hunting (≥45kg)'
     ) +
   guides(size = guide_legend('Number of societies')) +
@@ -229,7 +229,7 @@ plot_false_pos <-
   theme(axis.title.y = element_blank(), axis.text.y = element_blank())
 plot_false_pos
 
-plot_false_both <- plot_false_neg + plot_false_pos
+plot_false_both <- plot_false_neg + plot_false_pos + plot_layout(axis_titles = 'collect')
 ggsave("Figures/plot_false_both.pdf", width = 14, height = 8, device = cairo_pdf)
 ggsave("Figures/plot_false_both.png", width = 14, height = 8)
 
