@@ -292,7 +292,8 @@ We also re-assessed the claim that a third or more of the surveyed societies sho
 # Computed values for the following paragraph
 
 recode_large <- table(recode$large_game)
-recode_large_ratio <- ratio_fmt(recode_large[4] + recode_large[5], num_soc)
+sometimes_large <- recode_large['Sometimes'] + recode_large['Frequently']
+recode_large_ratio <- ratio_fmt(sometimes_large, num_soc)
 
 recode_ratios <- 
   map2_chr(
@@ -306,7 +307,7 @@ recode_ratios <-
 
 ```
 
-In our own re-coding of the frequency of big game hunting in all 63 societies (i.e., in the  `{r} a_num_big_tot` that Anderson et al. coded as big game hunting, as well as in the  `{r} num_soc - a_num_big_tot` that they coded as no big game hunting, and ignoring pseudo-replication) we found the following,  `{r} recode_ratios`. Thus, in only `{r} recode_large_ratio` societies in Anderson et al. (2023) could women be said to “regularly” hunt big game (but two of those `{r} recode_large[4] + recode_large[5]`, the Agta and Ayta, are the same population). See @tbl-recode and @fig-preysize.
+In our own re-coding of the frequency of big game hunting in all 63 societies (i.e., in the  `{r} a_num_big_tot` that Anderson et al. coded as big game hunting, as well as in the  `{r} num_soc - a_num_big_tot` that they coded as no big game hunting, and ignoring pseudo-replication) we found the following,  `{r} recode_ratios`. Thus, in only `{r} recode_large_ratio` societies in Anderson et al. (2023) could women be said to “regularly” hunt big game (but two of those `{r} sometimes_large`, the Agta and Ayta, are the same population). See @tbl-recode and @fig-preysize.
 
 :::{#fig-preysize}
 ![](Figures/plot_preysize.png)

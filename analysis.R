@@ -200,13 +200,15 @@ plot_false_neg <-
 plot_false_neg
 
 anderson_yes <- recode[recode$anderson_hunt==1,]
+
 anderson_fp <- anderson_yes[anderson_yes$false_positive1,]
-anderson_fp2 <- anderson_yes[anderson_yes$false_positive2,]
 xmin <- min(anderson_fp$sg) - pad
 xmax <- max(anderson_fp$sg) + pad
-xmax2 <- max(anderson_fp2$sg) + pad
 ymin <- min(anderson_fp$lg) - pad
 ymax <- max(anderson_fp$lg) + pad
+
+anderson_fp2 <- anderson_yes[anderson_yes$false_positive2,]
+xmax2 <- max(anderson_fp2$sg) + pad
 ymax2 <- max(anderson_fp2$lg) + pad
 
 lbl <- str_glue("False positives (N={sum(anderson_yes$false_positive1)})")
