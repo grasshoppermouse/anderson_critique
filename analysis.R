@@ -53,22 +53,23 @@ recode <-
     anderson_hunt2 = ifelse(anderson_hunt == 0, 'Anderson et al.: No', 'Anderson et al.: Yes'),
     anderson_smallgame = anderson_preysize %in% c('1', '2'),
     anderson_largegame = anderson_preysize %in% c('3', '4'),
-    anderson_preysize2 = case_when(
-      anderson_smallgame ~ 'Anderson et al.: Small/medium game',
-      anderson_largegame ~ 'Anderson et al.: Large game',
-      is.na(anderson_preysize) & anderson_hunt == 1 ~ 'Anderson et al.: Unknown size',
-      is.na(anderson_preysize) & anderson_hunt == 0 ~ 'Anderson et al.: No hunting',
-      .default = NA
-    ),
-    anderson_preysize2 = factor(anderson_preysize2, levels = c('Anderson et al.: Small/medium game', 'Anderson et al.: Large game', 'Anderson et al.: Unknown size', 'Anderson et al.: No hunting')),
     anderson_preysize3 = case_when(
       anderson_preysize == 1 ~ 'Small',
       anderson_preysize == 2 ~ 'Medium',
       anderson_preysize == 3 ~ 'Large',
       anderson_preysize == 4 ~ 'All',
+      is.na(anderson_preysize) & anderson_hunt ~ 'Unknown',
       .default = 'No hunting'
     ),
-    anderson_preysize3 = factor(anderson_preysize3, levels = c('No hunting', 'Small', 'Medium', 'Large', 'All')),
+    anderson_preysize3 = factor(anderson_preysize3, levels = c('No hunting', 'Small', 'Medium', 'Large', 'All', 'Unknown')),
+    anderson_preysize2 = case_when(
+      anderson_smallgame ~ 'Anderson et al.: Small/medium game',
+      anderson_largegame ~ 'Anderson et al.: Large game',
+      anderson_preysize3 == 'Unknown' ~ 'Anderson et al.: Unknown size',
+      anderson_preysize3 == 'No hunting' ~ 'Anderson et al.: No hunting',
+      .default = NA
+    ),
+    anderson_preysize2 = factor(anderson_preysize2, levels = c('Anderson et al.: Small/medium game', 'Anderson et al.: Large game', 'Anderson et al.: Unknown size', 'Anderson et al.: No hunting')),
     psuedo_rep = str_detect(Pseudoreplication, "Yes"),
     small_game = str_to_sentence(small_game),
     large_game = str_to_sentence(large_game),
