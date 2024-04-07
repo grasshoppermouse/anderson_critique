@@ -11,6 +11,8 @@ if (!dir.exists("Figures")){
   dir.create("Figures")
 }
 
+hunt_freq <- c('No evidence', 'Never', 'Rarely', 'Sometimes', 'Frequently')
+
 source('interrater_reliability.R')
 
 # Anderson et al. (2023)
@@ -46,7 +48,7 @@ anderson <-
       is.na(anderson_preysize) & anderson_hunt ~ 'Unknown',
       .default = 'No hunting'
     ),
-    anderson_preysize3 = factor(anderson_preysize3, levels = c('No hunting', 'Small', 'Medium', 'Large', 'All', 'Unknown')),
+    anderson_preysize3 = factor(anderson_preysize3, levels = c('No hunting', 'Unknown', 'Small', 'Medium', 'Large', 'All')),
     anderson_preysize2 = case_when(
       anderson_smallgame ~ 'Anderson et al.: Small/medium game',
       anderson_largegame ~ 'Anderson et al.: Large game',

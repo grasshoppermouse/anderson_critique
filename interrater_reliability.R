@@ -6,8 +6,6 @@
 
 # Original recoding (preliminary)
 
-hunt_freq <- c('No evidence', 'Never', 'Rarely', 'Sometimes', 'Frequently')
-
 recode_prelim <- 
   read_excel('data/recoding.preliminary.xlsx', skip = 1, na = 'N/A') |> 
   dplyr::select(Society, Subsistence...6:Pseudoreplication) |> # Omit our copy of the Anderson data
