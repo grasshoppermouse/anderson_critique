@@ -2,6 +2,7 @@
 # Critique of Anderson et al. (2023)
 
 <!-- badges: start -->
+[![DOI](https://zenodo.org/badge/741738059.svg)](https://zenodo.org/doi/10.5281/zenodo.11068064)
 <!-- badges: end -->
 
 The data and `R` code for our critique of [Anderson et al. (2023) The Myth of Man the Hunter: Women’s contribution to the hunt across ethnographic contexts](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0287101)
